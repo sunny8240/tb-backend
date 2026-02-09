@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -9,76 +10,85 @@ const authRoutes = require('./routes/auth');
 const stateRoutes = require('./routes/states');
 const destinationRoutes = require('./routes/destinations');
 const uploadRoutes = require('./routes/uploads');
-
 const { errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
 
-// Middleware
-const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    process.env.FRONTEND_URL,
+    'https://tb-frontend-nine.vercel.app'
+  ].filter(Boolean),
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
-};
-app.use(cors(corsOptions));
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// DB
-const dbOptions = {
+mongoose.connect(process.env.MONGODB_URI, {
   serverSelectionTimeoutMS: 10000,
   socketTimeoutMS: 45000,
   retryWrites: true,
   w: 'majority',
   ssl: true,
-  tlsInsecure: false,
   authSource: 'admin'
-};
-
-const connectWithRetry = () => {
-  mongoose.connect(process.env.MONGODB_URI, dbOptions)
-    .then(() => {
-      console.log('MongoDB connected successfully');
-    })
-    .catch(err => {
-      console.error('MongoDB connection failed:', err.message || err);
-      setTimeout(connectWithRetry, 5000);
-    });
-};
-
-connectWithRetry();
-
-// DB Events
-mongoose.connection.on('disconnected', () => {
-  console.warn('MongoDB disconnected');
 });
 
-mongoose.connection.on('error', (err) => {
-  console.error('MongoDB error:', err.message);
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    message: 'TravelBharat Backend is running',
+    timestamp: new Date().toISOString()
+  });
 });
 
-// Routes
+app.get('/health', (req, res) => {
+  const dbConnected = mongoose.connection.readyState === 1;
+  res.status(dbConnected ? 200 : 503).json({
+    status: dbConnected ? 'OK' : 'DB_DISCONNECTED',
+    database: dbConnected,
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/states', stateRoutes);
 app.use('/api/destinations', destinationRoutes);
 app.use('/api/uploads', uploadRoutes);
 
-// Serve uploaded files
-const uploadsPath = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsPath)) fs.mkdirSync(uploadsPath, { recursive: true });
-app.use('/uploads', express.static(uploadsPath));
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+app.use('/uploads', express.static(uploadsDir));
 
-// Error
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'Route not found',
+    path: req.path
+  });
+});
+
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`   Server running on http://localhost:${PORT}`);
-  console.log(`   API Documentation:`);
-  console.log(`   GET /api/states              - Get all states`);
-  console.log(`   GET /api/destinations       - Get all destinations`);
-  console.log(`   POST /api/auth/admin-login  - Admin login`);
-}); 
+
+const server = app.listen(PORT, () => {
+  console.log(`Backend running on port ${PORT}`);
+});
+
+process.on('SIGTERM', () => {
+  server.close(() => {
+    mongoose.connection.close(false, () => process.exit(0));
+  });
+});
+
+process.on('uncaughtException', () => {
+  process.exit(1);
+});
 
 module.exports = app;
