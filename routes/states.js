@@ -11,15 +11,11 @@ const {
 } = require('../controllers/stateController');
 const { protect, authorize } = require('../middleware/auth');
 
-/**
- * Public routes
- */
+// Public
 router.get('/', getAllStates);
 router.get('/:slug', getStateBySlug);
 
-/**
- * Admin routes
- */
+// Admin
 router.get('/all', protect, authorize('admin'), getAllStatesAdmin);
 router.post('/', protect, authorize('admin'), createState);
 router.put('/:id', protect, authorize('admin'), updateState);

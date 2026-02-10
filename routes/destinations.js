@@ -14,18 +14,14 @@ const {
 } = require('../controllers/destinationController');
 const { protect, authorize } = require('../middleware/auth');
 
-/**
- * Public routes
- */
+// Public
 router.get('/', getAllDestinations);
 router.get('/nearby', getNearbyDestinations);
 router.get('/state/:stateId', getDestinationsByState);
 router.get('/slug/:slug', getDestinationBySlug);
 router.get('/:id', getDestinationById);
 
-/**
- * Admin routes
- */
+// Admin
 router.get('/all', protect, authorize('admin'), getAllDestinationsAdmin);
 router.post('/', protect, authorize('admin'), createDestination);
 router.put('/:id', protect, authorize('admin'), updateDestination);

@@ -14,13 +14,11 @@ const clearDatabase = async () => {
     try {
       await State.collection.drop();
     } catch (err) {
-      // Collection may not exist
     }
 
     try {
       await Destination.collection.drop();
     } catch (err) {
-      // Collection may not exist
     }
     
     process.exit(0);

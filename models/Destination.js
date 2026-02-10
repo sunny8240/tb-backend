@@ -60,9 +60,7 @@ const destinationSchema = new mongoose.Schema({
   }
 });
 
-/**
- * Auto-generate slug and update timestamp before saving
- */
+// Auto-generate slug
 destinationSchema.pre('save', function(next) {
   if (!this.slug) {
     this.slug = this.name.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
@@ -71,9 +69,7 @@ destinationSchema.pre('save', function(next) {
   next();
 });
 
-/**
- * Create index for geospatial queries (nearby destinations)
- */
+// Geospatial index
 destinationSchema.index({ latitude: 1, longitude: 1 });
 
 module.exports = mongoose.model('Destination', destinationSchema);

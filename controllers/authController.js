@@ -1,9 +1,7 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
-/**
- * Generate JWT token for authenticated user
- */
+// Generate JWT
 const generateToken = (user) => {
   return jwt.sign(
     { id: user._id, email: user.email, role: user.role },
@@ -12,10 +10,7 @@ const generateToken = (user) => {
   );
 };
 
-/**
- * Admin login endpoint
- * Authenticates admin user and returns JWT token
- */
+// Admin login
 exports.adminLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -64,7 +59,7 @@ exports.adminLogin = async (req, res, next) => {
       });
     }
 
-    // Compare passwords
+    // Password match
     const isMatch = await user.comparePassword(password);
 
     if (!isMatch) {

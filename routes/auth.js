@@ -7,14 +7,10 @@ const {
 } = require('../controllers/authController');
 const { protect, authorize } = require('../middleware/auth');
 
-/**
- * Admin login endpoint
- */
+// Admin login
 router.post('/admin-login', adminLogin);
 
-/**
- * Get current user (protected)
- */
+// Current user
 router.get('/me', protect, getCurrentUser);
 
 module.exports = router;

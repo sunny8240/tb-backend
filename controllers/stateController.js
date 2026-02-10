@@ -1,8 +1,6 @@
 const State = require('../models/State');
 
-/**
- * Get all approved states
- */
+// Get approved states
 exports.getAllStates = async (req, res, next) => {
   try {
     const states = await State.find({ isApproved: true }).sort({ name: 1 });
@@ -16,9 +14,7 @@ exports.getAllStates = async (req, res, next) => {
   }
 };
 
-/**
- * Get all states (admin - includes pending)
- */
+// Get all states (admin)
 exports.getAllStatesAdmin = async (req, res, next) => {
   try {
     const states = await State.find({}).sort({ createdAt: -1 });
@@ -32,9 +28,7 @@ exports.getAllStatesAdmin = async (req, res, next) => {
   }
 };
 
-/**
- * Get single state by slug
- */
+// Get by slug
 exports.getStateBySlug = async (req, res, next) => {
   try {
     const state = await State.findOne({ slug: req.params.slug });
@@ -55,9 +49,7 @@ exports.getStateBySlug = async (req, res, next) => {
   }
 };
 
-/**
- * Create new state
- */
+// Create state
 exports.createState = async (req, res, next) => {
   try {
     const state = await State.create(req.body);
@@ -72,9 +64,7 @@ exports.createState = async (req, res, next) => {
   }
 };
 
-/**
- * Update existing state
- */
+// Update state
 exports.updateState = async (req, res, next) => {
   try {
     let state = await State.findById(req.params.id);
