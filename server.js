@@ -80,6 +80,19 @@ const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 app.use('/uploads', express.static(uploadsDir));
 
+// Serve favicon.ico by redirecting to frontend public favicon if available
+app.get('/favicon.ico', (req, res) => {
+  try {
+    const faviconPath = path.join(__dirname, '..', 'frontend', 'public', 'favicon.png');
+    if (fs.existsSync(faviconPath)) {
+      return res.sendFile(faviconPath);
+    }
+  } catch (e) {
+    // ignore
+  }
+  res.status(204).end();
+});
+
 app.use((req, res) => {
   res.status(404).json({
     success: false,

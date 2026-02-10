@@ -13,10 +13,12 @@ const { protect, authorize } = require('../middleware/auth');
 
 // Public
 router.get('/', getAllStates);
-router.get('/:slug', getStateBySlug);
 
 // Admin
 router.get('/all', protect, authorize('admin'), getAllStatesAdmin);
+
+// Public
+router.get('/:slug', getStateBySlug);
 router.post('/', protect, authorize('admin'), createState);
 router.put('/:id', protect, authorize('admin'), updateState);
 router.patch('/:id/approve', protect, authorize('admin'), approveState);
