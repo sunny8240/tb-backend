@@ -1,6 +1,6 @@
 # TravelBharat — Backend
 
-This folder contains the Express backend API for TravelBharat. This README explains how to run locally and prepare the repository for deployment (Railway).
+This folder contains the Express backend API for TravelBharat. This README explains how to run locally and prepare the repository for deployment (Render).
 
 ## Quick: Run locally
 
@@ -30,7 +30,7 @@ Populate these in `backend/.env` or in your host's environment settings:
 - `ADMIN_EMAIL` and `ADMIN_PASSWORD` — initial admin credentials
 - `FRONTEND_URL` — URL of frontend for CORS
 
-Keep `.env` out of source control. Use Railway / Render environment settings instead.
+Keep `.env` out of source control. Use Render environment settings instead.
 
 ## Seed data
 Run seeded sample data (optional):
@@ -57,13 +57,14 @@ git push -u origin main
 
 3. In GitHub, enable branch protection or CI as needed.
 
-## Deploy to Railway (example)
+## Deploy to Render
 
-1. Create a Railway project, choose "Deploy from GitHub" and connect your backend repo.
-2. Set the root directory to `/` (the repo root is the backend code).
-3. Set the start command to `npm start` and let Railway install dependencies.
-4. Add environment variables in Railway (see "Environment variables" above).
-5. Deploy and copy your service URL. Test endpoints like `/api/states`.
+1. Create a Render account and new Web Service, choose "Deploy from GitHub" and connect your backend repo.
+2. Set the root directory to `backend` (or `/` if backend is the repo root).
+3. Set the start command to `npm start` and let Render install dependencies.
+4. Add environment variables in Render (see "Environment variables" above).
+5. Backend is deployed at: `https://tb-backend-93wu.onrender.com`
+6. Update frontend API URL to: `https://tb-backend-93wu.onrender.com/api`
 
 ## Notes
 - Uploaded files saved in `uploads/` are ephemeral on many hosts — use a cloud storage (Cloudinary/S3) for persistent images.
