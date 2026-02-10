@@ -120,15 +120,15 @@ exports.deleteState = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: 'State deleted successfully'
+    });
+  } catch (error) {
     next(error);
   }
 };
 
 /**
  * Approve state (set as approved)
- *//rror);
-  }
-};
+ */
 
 // Approve
 exports.approveState = async (req, res, next) => {
