@@ -37,7 +37,9 @@ const stateSchema = new mongoose.Schema({
   }
 });
 
-// Auto-generate slug before saving
+/**
+ * Auto-generate slug and update timestamp before saving
+ */
 stateSchema.pre('save', function(next) {
   if (!this.slug && this.name) {
     this.slug = this.name.toLowerCase().replace(/\s+/g, '-');

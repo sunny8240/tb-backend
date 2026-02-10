@@ -1,7 +1,9 @@
 const Destination = require('../models/Destination');
 const mongoose = require('mongoose');
 
-// Get all destinations with filters
+/**
+ * Get all approved destinations with pagination and filters
+ */
 exports.getAllDestinations = async (req, res, next) => {
   try {
     const { state, category, search, page = 1, limit = 12 } = req.query;
@@ -46,7 +48,9 @@ exports.getAllDestinations = async (req, res, next) => {
   }
 };
 
-// Admin: Get all destinations (including pending)
+/**
+ * Get all destinations for admin (including pending approvals)
+ */
 exports.getAllDestinationsAdmin = async (req, res, next) => {
   try {
     const { state, category, search, page = 1, limit = 100 } = req.query;
@@ -91,7 +95,9 @@ exports.getAllDestinationsAdmin = async (req, res, next) => {
   }
 };
 
-// Get single destination by slug
+/**
+ * Get single destination by slug
+ */
 exports.getDestinationBySlug = async (req, res, next) => {
   try {
     const destination = await Destination.findOne({ slug: req.params.slug })
@@ -112,7 +118,9 @@ exports.getDestinationBySlug = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+}**
+ * Get single destination by ID
+ */
 
 // Get single destination by ID
 exports.getDestinationById = async (req, res, next) => {
@@ -135,7 +143,9 @@ exports.getDestinationById = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+}**
+ * Get all destinations for a specific state
+ */
 
 // Get destinations by state
 exports.getDestinationsByState = async (req, res, next) => {
@@ -161,7 +171,9 @@ exports.getDestinationsByState = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+}**
+ * Get destinations within a specified radius using geospatial calculations
+ */
 
 // Get nearby destinations within a radius
 exports.getNearbyDestinations = async (req, res, next) => {
@@ -214,7 +226,9 @@ exports.getNearbyDestinations = async (req, res, next) => {
       data: nearbyDestinations
     });
   } catch (error) {
-    next(error);
+ **
+ * Create new destination (admin)
+ */
   }
 };
 
@@ -245,6 +259,9 @@ exports.createDestination = async (req, res, next) => {
   }
 };
 
+/**
+ * Update existing destination
+ */
 exports.updateDestination = async (req, res, next) => {
   try {
     let destination = await Destination.findById(req.params.id);
@@ -272,6 +289,9 @@ exports.updateDestination = async (req, res, next) => {
   }
 };
 
+/**
+ * Approve destination (set as approved)
+ */
 exports.approveDestination = async (req, res, next) => {
   try {
     const destination = await Destination.findByIdAndUpdate(
@@ -293,7 +313,9 @@ exports.approveDestination = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
-  }
+ **
+ * Delete destination (admin)
+ */
 };
 
 // Delete destination (admin)

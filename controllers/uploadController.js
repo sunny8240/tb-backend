@@ -1,6 +1,10 @@
 const path = require('path');
 const fs = require('fs');
 
+/**
+ * Upload image endpoint
+ * Saves image to local uploads directory and returns public URL
+ */
 exports.uploadImage = (req, res, next) => {
   try {
     if (!req.file) {

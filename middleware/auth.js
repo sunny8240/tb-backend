@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 
-// Auth
+/**
+ * Middleware to protect routes - verifies JWT token
+ */
 exports.protect = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
   
@@ -17,7 +19,9 @@ exports.protect = (req, res, next) => {
   }
 };
 
-// Roles
+/**
+ * Middleware to authorize specific roles
+ */
 exports.authorize = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {

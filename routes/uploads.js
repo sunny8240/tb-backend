@@ -9,6 +9,9 @@ const uploadController = require('../controllers/uploadController');
 const uploadsDir = path.join(__dirname, '..', 'uploads');
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
+/**
+ * Multer storage configuration
+ */
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadsDir);
@@ -19,6 +22,9 @@ const storage = multer.diskStorage({
   }
 });
 
+/**
+ * Multer file upload middleware with validation
+ */
 const upload = multer({
   storage,
   limits: { fileSize: 5 * 1024 * 1024 }, 
@@ -28,6 +34,9 @@ const upload = multer({
   }
 });
 
+/**
+ * Image upload endpoint (protected)
+ */
 router.post('/', protect, upload.single('image'), uploadController.uploadImage);
 
 module.exports = router;

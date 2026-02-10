@@ -1,6 +1,8 @@
 const State = require('../models/State');
 
-// States
+/**
+ * Get all approved states
+ */
 exports.getAllStates = async (req, res, next) => {
   try {
     const states = await State.find({ isApproved: true }).sort({ name: 1 });
@@ -14,7 +16,9 @@ exports.getAllStates = async (req, res, next) => {
   }
 };
 
-// Admin
+/**
+ * Get all states (admin - includes pending)
+ */
 exports.getAllStatesAdmin = async (req, res, next) => {
   try {
     const states = await State.find({}).sort({ createdAt: -1 });
@@ -28,7 +32,9 @@ exports.getAllStatesAdmin = async (req, res, next) => {
   }
 };
 
-// Single
+/**
+ * Get single state by slug
+ */
 exports.getStateBySlug = async (req, res, next) => {
   try {
     const state = await State.findOne({ slug: req.params.slug });
@@ -47,7 +53,9 @@ exports.getStateBySlug = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+}**
+ * Create new state
+ */
 
 // Create
 exports.createState = async (req, res, next) => {
@@ -62,7 +70,9 @@ exports.createState = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+}**
+ * Update existing state
+ */
 
 // Update
 exports.updateState = async (req, res, next) => {
@@ -87,7 +97,9 @@ exports.updateState = async (req, res, next) => {
       data: state
     });
   } catch (error) {
-    next(error);
+ **
+ * Delete state by ID
+ */error);
   }
 };
 
@@ -108,7 +120,9 @@ exports.deleteState = async (req, res, next) => {
       message: 'State deleted successfully'
     });
   } catch (error) {
-    next(error);
+ **
+ * Approve state (set as approved)
+ */rror);
   }
 };
 
