@@ -53,11 +53,11 @@ exports.getStateBySlug = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-}**
+};
+
+/**
  * Create new state
  */
-
-// Create
 exports.createState = async (req, res, next) => {
   try {
     const state = await State.create(req.body);
@@ -70,11 +70,11 @@ exports.createState = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-}**
+};
+
+/**
  * Update existing state
  */
-
-// Update
 exports.updateState = async (req, res, next) => {
   try {
     let state = await State.findById(req.params.id);
@@ -97,11 +97,13 @@ exports.updateState = async (req, res, next) => {
       data: state
     });
   } catch (error) {
- **
- * Delete state by ID
- */error);
+    next(error);
   }
 };
+
+/**
+ * Delete state by ID
+ */
 
 // Delete
 exports.deleteState = async (req, res, next) => {
@@ -118,11 +120,13 @@ exports.deleteState = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: 'State deleted successfully'
-    });
-  } catch (error) {
- **
+    next(error);
+  }
+};
+
+/**
  * Approve state (set as approved)
- */rror);
+ *//rror);
   }
 };
 
