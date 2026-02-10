@@ -118,9 +118,7 @@ exports.getDestinationBySlug = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-}**
- * Get single destination by ID
- */
+}
 
 // Get single destination by ID
 exports.getDestinationById = async (req, res, next) => {
@@ -143,9 +141,7 @@ exports.getDestinationById = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-}**
- * Get all destinations for a specific state
- */
+}
 
 // Get destinations by state
 exports.getDestinationsByState = async (req, res, next) => {
@@ -171,9 +167,7 @@ exports.getDestinationsByState = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-}**
- * Get destinations within a specified radius using geospatial calculations
- */
+}
 
 // Get nearby destinations within a radius
 exports.getNearbyDestinations = async (req, res, next) => {
@@ -226,9 +220,7 @@ exports.getNearbyDestinations = async (req, res, next) => {
       data: nearbyDestinations
     });
   } catch (error) {
- **
- * Create new destination (admin)
- */
+ 
   }
 };
 
@@ -313,9 +305,7 @@ exports.approveDestination = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
- **
- * Delete destination (admin)
- */
+  }
 };
 
 // Delete destination (admin)
